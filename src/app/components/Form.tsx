@@ -3,8 +3,8 @@ import { useState, useReducer, FormEvent, useRef, useContext } from "react";
 import { ThemeProps, ThemeContext } from "./ThemeProvider";
 
 type ListItem = {
-  id: string;
-  value: string;
+  id: string | undefined;
+  value: string | undefined;
 };
 
 type InitialType = {
@@ -58,8 +58,8 @@ const listReducer = (
 };
 
 const Form = () => {
-  const [current, setCurrent] = useState<string>("");
-  const [editId, setEditId] = useState<string | null>(null);
+  const [current, setCurrent] = useState<string | undefined>("");
+  const [editId, setEditId] = useState<string | null | undefined>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [state, dispatch] = useReducer(listReducer, initial);
   const { theme } = useContext(ThemeContext) as ThemeProps;
@@ -76,11 +76,11 @@ const Form = () => {
     setCurrent("");
   }
 
-  function handleDelete(id: string) {
+  function handleDelete(id: string | undefined) {
     dispatch({ type: ACTIONS.DELETE, id: id });
   }
 
-  function handleEdit(id: string, value: string) {
+  function handleEdit(id: string | undefined, value: string | undefined) {
     setCurrent(value);
     setEditId(id);
     inputRef.current?.focus();
